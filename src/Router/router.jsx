@@ -1,13 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
 import ErrorPage from "../Pages/ErrorPage";
 import Login from "../Pages/Login";
-import Registation from "../Pages/Registation";
 import HomePage from "../Pages/HomePage";
 import Home from "../Components/Home";
 import PrivateRoute from "./PrivateRoute";
 import AddTask from "../Pages/AddTask";
 import BrowseTasks from "../Pages/BrowseTasks";
 import MyPostedTasks from "../Pages/MyPostedTasks";
+import Register from "../Pages/Register";
 
 const router = createBrowserRouter([
   {
@@ -26,7 +26,17 @@ const router = createBrowserRouter([
             <span className="loading loading-bars loading-xl"></span>
           </div>
         )
-      }
+      },
+      {
+        path: "/add-task",
+        element: <PrivateRoute><AddTask></AddTask></PrivateRoute>
+      }, {
+        path: "/browse-tasks",
+        element: <BrowseTasks></BrowseTasks>
+      }, {
+        path: "/my-posted-tasks",
+        element: <PrivateRoute><MyPostedTasks></MyPostedTasks></PrivateRoute>
+      },
     ],
   },
   {
@@ -35,22 +45,12 @@ const router = createBrowserRouter([
   },
   {
     path: "/registation",
-    element: <Registation></Registation>
+    element: <Register></Register>
   },
   {
     path: "/*",
     element: <ErrorPage></ErrorPage>
-  },
-  {
-    path:"/add-task",
-    element: <PrivateRoute><AddTask></AddTask></PrivateRoute>
-  },{
-    path:"/browse-tasks",
-    element: <BrowseTasks></BrowseTasks>
-  },{
-    path:"/my-posted-tasks",
-    element: <PrivateRoute><MyPostedTasks></MyPostedTasks></PrivateRoute>
-  },
+  }
 ]);
 
 export default router;
