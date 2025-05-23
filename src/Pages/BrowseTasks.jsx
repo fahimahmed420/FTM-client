@@ -18,17 +18,20 @@ const BrowseTasks = () => {
         {tasks.map((task) => (
           <div
             key={task._id}
-            className="border rounded-lg p-5 shadow-md bg-white dark:bg-gray-900 dark:text-white"
+            className="border rounded-lg p-5 shadow-md bg-white dark:bg-gray-900 dark:text-white flex flex-col justify-between"
           >
-            <h3 className="text-xl font-semibold mb-1">{task.title}</h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-              {task.category}
-            </p>
-            <p className="mb-2">{task.description.slice(0, 100)}...</p>
+            <div>
+              <div className='flex justify-between mb-4 items-center'>
+                <h3 className="text-xl font-semibold mb-1">{task.title}</h3>
+            <span className="text-xs bg-blue-500 px-2 py-1 rounded-full ">
+                {task.category}
+              </span>
+              </div>
+            <p className="mb-4">{task.description.slice(0, 100)}...</p>
 
             <div className="text-sm mb-2">
-              <p><strong>Budget:</strong> ${task.budget}</p>
-              <p><strong>Deadline:</strong> {new Date(task.deadline).toLocaleDateString()}</p>
+              <p><strong className='text-green-500'>Budget:</strong> ${task.budget}</p>
+              <p><strong className='text-red-500'>Deadline:</strong> {new Date(task.deadline).toLocaleDateString()}</p>
               <p><strong>Posted By:</strong> {task.name} ({task.email})</p>
             </div>
 
@@ -42,11 +45,10 @@ const BrowseTasks = () => {
                 </span>
               ))}
             </div>
+            </div>
 
-            <Link
-              to={`/task/${task._id}`}
-              className="inline-block bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition"
-            >
+            <Link to={`/task/${task._id}`} 
+            className="inline-block bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition text-center">
               See Details
             </Link>
           </div>

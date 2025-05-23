@@ -2,12 +2,12 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const MyTasks = () => {
   const { user } = useContext(AuthContext);
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
-  
 
   const fetchTasks = () => {
     fetch(`http://localhost:3000/mytasks?email=${user.email}`)
@@ -29,23 +29,57 @@ const MyTasks = () => {
     }
   }, [user]);
 
-  const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this task?')) return;
+  const handleDelete = async (id, title) => {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-success",
+        cancelButton: "btn btn-danger mr-4"
+      },
+      buttonsStyling: false
+    });
 
-    try {
-      const res = await fetch(`http://localhost:3000/task/${id}`, {
-        method: 'DELETE'
-      });
+    const result = await swalWithBootstrapButtons.fire({
+      title: `Delete "${title}"?`,
+      text: "This action cannot be undone.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, cancel!",
+      reverseButtons: true,
+      backdrop: true,
+      allowOutsideClick: false,
+    });
 
-      if (res.ok) {
-        toast.success('Task deleted successfully');
-        fetchTasks();
-      } else {
-        toast.error('Failed to delete task');
+    if (result.isConfirmed) {
+      try {
+        const res = await fetch(`http://localhost:3000/task/${id}`, {
+          method: 'DELETE'
+        });
+
+        if (res.ok) {
+          await swalWithBootstrapButtons.fire(
+            "Deleted!",
+            "Your task has been deleted.",
+            "success"
+          );
+          fetchTasks();
+        } else {
+          throw new Error('Failed to delete');
+        }
+      } catch (err) {
+        console.error(err);
+        swalWithBootstrapButtons.fire(
+          "Error!",
+          "Something went wrong. Task was not deleted.",
+          "error"
+        );
       }
-    } catch (err) {
-      console.error(err);
-      toast.error('Error deleting task');
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+      swalWithBootstrapButtons.fire(
+        "Cancelled",
+        "Your task is safe 🙂",
+        "error"
+      );
     }
   };
 
@@ -89,8 +123,8 @@ const MyTasks = () => {
                       Update
                     </Link>
                     <button
-                      onClick={() => handleDelete(task._id)}
-                      className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm"
+                      onClick={() => handleDelete(task._id, task.title)}
+                      className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm cursor-pointer"
                     >
                       Delete
                     </button>

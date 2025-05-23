@@ -87,15 +87,14 @@ const TaskDetails = () => {
             <div className="bg-white dark:bg-gray-900 shadow-lg rounded-lg p-6">
                 <div className="flex justify-between items-start">
                     <h2 className="text-3xl font-bold mb-4">{task.title}</h2>
-                    <div>
+                    <div className='flex flex-col '>
                         <button
                             onClick={handleBid}
                             disabled={isOwner}
-                            className={`ml-3 inline-block px-3 py-1 rounded text-sm ${isOwner
+                            className={` inline-block px-3 py-1 rounded text-sm ${isOwner
                                 ? 'bg-gray-400 cursor-not-allowed text-white'
                                 : 'bg-orange-500 hover:bg-orange-600 text-white'
-                                }`}
-                        >
+                                }`}>
                             Bid Now
                         </button>
                         {isOwner && (
@@ -103,12 +102,16 @@ const TaskDetails = () => {
                                 You can't bid on your own task.
                             </p>
                         )}
+                        {!isOwner && (
+                            <p className="text-lg text-blue-600 font-semibold mb-4">
+                    You bid for {bidsCount} {bidsCount === 1 ? 'opportunity' : 'opportunities'}
+                </p>
+                        )
+                        }
                     </div>
                 </div>
 
-                <p className="text-lg text-blue-600 font-semibold mb-4">
-                    You bid for {bidsCount} {bidsCount === 1 ? 'opportunity' : 'opportunities'}
-                </p>
+                
 
                 <div className="text-sm text-gray-500 dark:text-gray-400 mb-2">
                     <span className="inline-block bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-100 px-3 py-1 rounded-full text-xs font-semibold">
@@ -151,8 +154,7 @@ const TaskDetails = () => {
 
                 <Link
                     to="/browse-tasks"
-                    className="inline-block mt-4 bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700 transition"
-                >
+                    className="inline-block mt-4 bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700 transition">
                     Back to Browse
                 </Link>
             </div>
