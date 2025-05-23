@@ -30,11 +30,11 @@ const TaskBidders = () => {
                   className="w-12 h-12 rounded-full"
                 />
                 <div>
-                  <h2 className="card-title">{bid.name}</h2>
+                  <h2 className="card-title text-white">{bid.name}</h2>
                   <p className="text-sm text-gray-500">{bid.email}</p>
                 </div>
               </div>
-              <p className="mb-2">{bid.message}</p>
+              <p className="mb-2 text-white">{bid.message}</p>
               <p className="text-sm font-semibold text-blue-600">Bid Amount: ${bid.amount}</p>
             </div>
           </div>

@@ -31,7 +31,7 @@ const Hero = () => {
             Flourish in a thriving freelance ecosystem dedicated to excellence and limitless opportunities.
           </p>
 
-          {/* Buttons */}
+        
           <div className="flex flex-wrap items-center gap-4 mb-6">
             <Link to="/browse-tasks">
               <button className="bg-blue-600 text-white px-6 py-3 rounded-md cursor-pointer font-semibold hover:bg-blue-700 transition">
