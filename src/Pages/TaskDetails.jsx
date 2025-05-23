@@ -84,7 +84,7 @@ const TaskDetails = () => {
 
     return (
         <div className="w-11/12 min-h-[69vh] mx-auto px-4 py-10">
-            <div className="bg-white dark:bg-gray-900 shadow-lg rounded-lg p-6">
+            <div className="bg-white dark:bg-gray-900 shadow-lg rounded-lg p-6 text-white">
                 <div className="flex justify-between items-start">
                     <h2 className="text-3xl font-bold mb-4">{task.title}</h2>
                     <div className='flex flex-col '>
