@@ -7,6 +7,7 @@ const MyTasks = () => {
   const { user } = useContext(AuthContext);
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
+  
 
   const fetchTasks = () => {
     fetch(`http://localhost:3000/mytasks?email=${user.email}`)
@@ -57,8 +58,8 @@ const MyTasks = () => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-10">
-      <h2 className="text-3xl font-bold mb-6">My Posted Tasks</h2>
+    <div className="w-11/12 min-h-[69vh] mx-auto px-4 py-10">
+      <h2 className="text-3xl font-bold mb-6 text-center">My Posted Tasks</h2>
       {tasks.length === 0 ? (
         <p className="text-gray-500">No tasks found.</p>
       ) : (

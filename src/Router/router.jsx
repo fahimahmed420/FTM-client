@@ -10,6 +10,7 @@ import Register from "../Pages/Register";
 import TaskDetails from "../Pages/TaskDetails";
 import MyTasks from "../Pages/MyTasks";
 import UpdateTask from "../Pages/UpdateTask";
+import MyBidsPage from "../Pages/MyBidsPage";
 
 const router = createBrowserRouter([
   {
@@ -38,17 +39,21 @@ const router = createBrowserRouter([
         element: <BrowseTasks></BrowseTasks>
       },
       {
-        path:"task/:id",
-        element:<PrivateRoute><TaskDetails></TaskDetails></PrivateRoute>
+        path: "task/:id",
+        element: <PrivateRoute><TaskDetails></TaskDetails></PrivateRoute>
       },
       {
         path: "/my-posted-tasks",
         element: <PrivateRoute><MyTasks></MyTasks></PrivateRoute>
       },
       {
-  path: "/update-task/:id",
-  element: <PrivateRoute><UpdateTask /></PrivateRoute>
-}
+        path: "/update-task/:id",
+        element: <PrivateRoute><UpdateTask /></PrivateRoute>
+      },
+      {
+        path:"/task/:id/bids",
+        element:<PrivateRoute><MyBidsPage></MyBidsPage></PrivateRoute>
+      }
     ],
   },
   {

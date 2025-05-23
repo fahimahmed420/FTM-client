@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import { toast } from 'react-toastify';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const TaskDetails = () => {
     const { id } = useParams();
@@ -15,14 +14,16 @@ const TaskDetails = () => {
 
     const isOwner = task?.email === user?.email;
 
-
     const fetchTask = async () => {
         try {
             const res = await fetch(`http://localhost:3000/addTask/${id}`);
             if (!res.ok) throw new Error('Task not found');
             const data = await res.json();
             setTask(data);
-            setBidsCount(data?.bids?.length || 0);
+
+            // Count current user's bids
+            const userBids = data?.bids?.filter(bid => bid.email === user?.email) || [];
+            setBidsCount(userBids.length);
         } catch (err) {
             console.error(err);
             setError('Failed to load task details.');
@@ -36,15 +37,17 @@ const TaskDetails = () => {
     }, [id]);
 
     const handleBid = async () => {
-        try {
-            const newBid = {
-                name: user.displayName,
-                email: user.email,
-                amount: 100,
-                message: "I'm interested in this task.",
-                photo: user.photoURL
-            };
+        if (isOwner) return;
 
+        const newBid = {
+            name: user.displayName,
+            email: user.email,
+            amount: 100,
+            message: "I'm interested in this task.",
+            photo: user.photoURL
+        };
+
+        try {
             const res = await fetch(`http://localhost:3000/addTask/${id}/bid`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -55,13 +58,13 @@ const TaskDetails = () => {
                 toast.success('Bid placed successfully!');
                 setBidsCount(prev => prev + 1);
             } else {
-                console.error("Failed to submit bid");
+                toast.error('Failed to submit bid');
             }
         } catch (err) {
             console.error(err);
+            toast.error('Error placing bid');
         }
     };
-
 
     if (loading) {
         return (
@@ -80,17 +83,17 @@ const TaskDetails = () => {
     }
 
     return (
-        <div className="max-w-4xl mx-auto px-4 py-10">
+        <div className="w-11/12 min-h-[69vh] mx-auto px-4 py-10">
             <div className="bg-white dark:bg-gray-900 shadow-lg rounded-lg p-6">
-                <div className='flex justify-between'>
+                <div className="flex justify-between items-start">
                     <h2 className="text-3xl font-bold mb-4">{task.title}</h2>
                     <div>
                         <button
                             onClick={handleBid}
                             disabled={isOwner}
                             className={`ml-3 inline-block px-3 py-1 rounded text-sm ${isOwner
-                                    ? 'bg-gray-400 cursor-not-allowed text-white'
-                                    : 'bg-orange-500 hover:bg-orange-600 text-white'
+                                ? 'bg-gray-400 cursor-not-allowed text-white'
+                                : 'bg-orange-500 hover:bg-orange-600 text-white'
                                 }`}
                         >
                             Bid Now
@@ -102,7 +105,6 @@ const TaskDetails = () => {
                         )}
                     </div>
                 </div>
-
 
                 <p className="text-lg text-blue-600 font-semibold mb-4">
                     You bid for {bidsCount} {bidsCount === 1 ? 'opportunity' : 'opportunities'}
@@ -127,9 +129,7 @@ const TaskDetails = () => {
                     </div>
                     <div>
                         <p className="font-semibold">Posted By:</p>
-                        <p>
-                            {task.name} ({task.email}){' '}
-                        </p>
+                        <p>{task.name} ({task.email})</p>
                     </div>
                 </div>
 
@@ -156,6 +156,7 @@ const TaskDetails = () => {
                     Back to Browse
                 </Link>
             </div>
+
             <ToastContainer />
         </div>
     );
