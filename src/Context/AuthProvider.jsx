@@ -6,36 +6,42 @@ import {
   signInWithEmailAndPassword,
   signOut,
   GoogleAuthProvider,
-  signInWithPopup
+  signInWithPopup,
+  updateProfile
 } from 'firebase/auth';
 import { auth } from '../firebase.init';
 
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(undefined);
 
   // Create user with email/password
-  const createUser = (email, password) => {
-    setLoading(true);
-    return createUserWithEmailAndPassword(auth, email, password);
+  const createUser = async (email, password, fullName = '', photoURL = '') => {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    if (fullName || photoURL) {
+      await updateProfile(userCredential.user, {
+        displayName: fullName,
+        photoURL: photoURL,
+      });
+      setUser({ ...userCredential.user, displayName: fullName, photoURL }); 
+    } else {
+      setUser(userCredential.user);
+    }
+    return userCredential;
   };
 
   // Sign in user with email/password
   const signInUser = (email, password) => {
-    setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
 
   // Google Sign In
   const googleProvider = new GoogleAuthProvider();
   const signInWithGoogle = () => {
-    setLoading(true);
     return signInWithPopup(auth, googleProvider);
   };
 
   // Sign out
   const signOutUser = () => {
-    setLoading(true);
     return signOut(auth);
   };
 
@@ -43,7 +49,6 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser); 
-      setLoading(false);
     });
 
     return () => unsubscribe();
@@ -51,18 +56,20 @@ const AuthProvider = ({ children }) => {
 
   const userInfo = {
     user,
-    loading,
     createUser,
     signInUser,
     signOutUser,
-    signInWithGoogle
+    signInWithGoogle,
   };
 
-  if (loading) {
-    return <div className="text-center text-white text-xl py-10">
-        <h2 className='my-16'>Loading....</h2>
+  // Only show loading screen while user === undefined (not yet checked)
+  if (user === undefined) {
+    return (
+      <div className="text-center text-white text-xl py-10">
+        <h2 className="my-16">Checking authentication...</h2>
         <progress className="progress w-56"></progress>
-    </div>; 
+      </div>
+    );
   }
 
   return (

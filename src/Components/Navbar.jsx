@@ -17,7 +17,7 @@ const Navbar = () => {
   document.documentElement.setAttribute("data-theme", storedTheme);
 }, []);
 
-
+console.log(user);
     const toggleDropdown = () => {
         setIsDropdownOpen(prev => !prev);
     };
@@ -76,13 +76,13 @@ const Navbar = () => {
                             {!user ? (
                                 <div className="flex items-center gap-4">
                                     <Link to="/login">
-                                        <button className="relative px-6 py-3 font-bold text-white rounded-md group overflow-hidden shadow-2xl">
+                                        <button className="relative cursor-pointer px-6 py-3 font-bold text-white rounded-md group overflow-hidden shadow-2xl">
                                             <span className="absolute inset-0 w-full h-full transition duration-300 ease-out opacity-0 bg-gradient-to-br from-pink-600 via-purple-700 to-blue-400 group-hover:opacity-100"></span>
                                             <span className="relative">Login</span>
                                         </button>
                                     </Link>
-                                    <Link to="/signup">
-                                        <button className="relative px-6 py-3 font-bold text-white rounded-md group overflow-hidden shadow-2xl">
+                                    <Link to="/registation">
+                                        <button className="relative px-6 cursor-pointer py-3 font-bold text-white rounded-md group overflow-hidden shadow-2xl">
                                             <span className="absolute inset-0 w-full h-full transition duration-300 ease-out opacity-0 bg-gradient-to-br from-green-600 via-blue-700 to-indigo-400 group-hover:opacity-100"></span>
                                             <span className="relative">Signup</span>
                                         </button>
@@ -127,6 +127,8 @@ const Navbar = () => {
 
                                             </div>
                                             <div className="w-full text-center">
+                                                <Link to="/profile" className="text-lg font-bold my-3 mx-auto inline-block cursor-pointer hover:text-blue-700">Profile Settings</Link>
+
                                                 <button onClick={handleLogout} className="text-lg font-bold my-3 mx-auto inline-block cursor-pointer hover:text-blue-700">Log out</button>
                                             </div>
                                         </div>

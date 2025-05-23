@@ -11,6 +11,7 @@ import TaskDetails from "../Pages/TaskDetails";
 import MyTasks from "../Pages/MyTasks";
 import UpdateTask from "../Pages/UpdateTask";
 import MyBidsPage from "../Pages/MyBidsPage";
+import ProfileSettings from "../Pages/ProfileSettings";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: "/add-task",
         element: <PrivateRoute><AddTask></AddTask></PrivateRoute>
+      },
+      {
+        path: "/profile",
+        element: <PrivateRoute><ProfileSettings></ProfileSettings></PrivateRoute>
       },
       {
         path: "/browse-tasks",

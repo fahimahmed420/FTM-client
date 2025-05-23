@@ -5,6 +5,8 @@ import { PiPasswordFill } from "react-icons/pi";
 import { FaUser, FaImage } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { updateProfile } from "firebase/auth";
+import { auth } from "../firebase.init";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -16,7 +18,7 @@ const Register = () => {
     photo: "",
   });
 
-  const { createUser, signInWithGoogle } = useContext(AuthContext);
+  const { createUser, signInWithGoogle, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const togglePassword = () => setShowPassword((prev) => !prev);
@@ -39,7 +41,17 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await createUser(formData.email, formData.password);
+      const userCredential = await createUser(formData.email, formData.password);
+      const user = userCredential.user;
+
+      await updateProfile(user, {
+        displayName: formData.fullName,
+        photoURL: formData.photo,
+      });
+
+      await auth.currentUser.reload();
+      setUser(auth.currentUser);
+
       alert("Registration successful!");
       navigate("/");
     } catch (error) {
@@ -81,9 +93,7 @@ const Register = () => {
           <form className="space-y-6 mb-4" onSubmit={handleSubmit} noValidate>
             {/* Full Name */}
             <div className="relative">
-              <label htmlFor="fullName" className="block text-sm mb-1">
-                Full Name
-              </label>
+              <label htmlFor="fullName" className="block text-sm mb-1">Full Name</label>
               <FaUser className="absolute top-10 left-3 text-gray-300" size={18} />
               <input
                 type="text"
@@ -99,9 +109,7 @@ const Register = () => {
 
             {/* Email */}
             <div className="relative">
-              <label htmlFor="email" className="block text-sm mb-1">
-                Email
-              </label>
+              <label htmlFor="email" className="block text-sm mb-1">Email</label>
               <MdEmail className="absolute top-10 left-3 text-gray-300" size={20} />
               <input
                 type="email"
@@ -110,7 +118,6 @@ const Register = () => {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
                 placeholder="you@example.com"
                 className="w-full pl-10 p-3 rounded-lg bg-white/20 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
@@ -118,9 +125,7 @@ const Register = () => {
 
             {/* Password */}
             <div className="relative">
-              <label htmlFor="password" className="block text-sm mb-1">
-                Password
-              </label>
+              <label htmlFor="password" className="block text-sm mb-1">Password</label>
               <PiPasswordFill className="absolute top-10 left-3 text-gray-300" size={20} />
               <input
                 type={showPassword ? "text" : "password"}
@@ -129,7 +134,6 @@ const Register = () => {
                 value={formData.password}
                 onChange={handleChange}
                 required
-                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                 placeholder="Password1"
                 className="w-full pl-10 pr-10 p-3 rounded-lg bg-white/20 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
@@ -148,9 +152,7 @@ const Register = () => {
 
             {/* Photo URL */}
             <div className="relative">
-              <label htmlFor="photoUrl" className="block text-sm mb-1">
-                Photo URL (optional)
-              </label>
+              <label htmlFor="photoUrl" className="block text-sm mb-1">Photo URL (optional)</label>
               <FaImage className="absolute top-10 left-3 text-gray-300" size={18} />
               <input
                 type="url"
@@ -176,15 +178,15 @@ const Register = () => {
 
             {/* Submit Button */}
             <button type="submit" className="relative cursor-pointer w-full inline-flex items-center justify-center px-6 py-3 overflow-hidden font-bold text-white rounded-md shadow-2xl group">
-                            <span className="absolute inset-0 w-full h-full transition duration-300 ease-out opacity-0 bg-gradient-to-br from-pink-600 via-purple-700 to-blue-400 group-hover:opacity-100"></span>
-                            <span className="absolute top-0 left-0 w-full bg-gradient-to-b from-white to-transparent opacity-5 h-1/3"></span>
-                            <span className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-white to-transparent opacity-5"></span>
-                            <span className="absolute bottom-0 left-0 w-4 h-full bg-gradient-to-r from-white to-transparent opacity-5"></span>
-                            <span className="absolute bottom-0 right-0 w-4 h-full bg-gradient-to-l from-white to-transparent opacity-5"></span>
-                            <span className="absolute inset-0 w-full h-full border border-white rounded-md opacity-10"></span>
-                            <span className="absolute w-0 h-0 transition-all duration-300 ease-out bg-white rounded-full group-hover:w-full group-hover:h-56 opacity-5"></span>
-                            <span className="relative">Sign Up</span>
-                        </button>
+              <span className="absolute inset-0 w-full h-full transition duration-300 ease-out opacity-0 bg-gradient-to-br from-pink-600 via-purple-700 to-blue-400 group-hover:opacity-100"></span>
+              <span className="absolute top-0 left-0 w-full bg-gradient-to-b from-white to-transparent opacity-5 h-1/3"></span>
+              <span className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-white to-transparent opacity-5"></span>
+              <span className="absolute bottom-0 left-0 w-4 h-full bg-gradient-to-r from-white to-transparent opacity-5"></span>
+              <span className="absolute bottom-0 right-0 w-4 h-full bg-gradient-to-l from-white to-transparent opacity-5"></span>
+              <span className="absolute inset-0 w-full h-full border border-white rounded-md opacity-10"></span>
+              <span className="absolute w-0 h-0 transition-all duration-300 ease-out bg-white rounded-full group-hover:w-full group-hover:h-56 opacity-5"></span>
+              <span className="relative">Sign Up</span>
+            </button>
           </form>
 
           {/* Google Sign Up */}
