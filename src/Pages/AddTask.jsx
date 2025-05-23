@@ -3,13 +3,15 @@ import { useForm } from 'react-hook-form';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { AuthContext } from '../Context/AuthContext';
+import { AuthContext } from "../context/AuthContext";
 
 const AddTask = () => {
     const { user } = useContext(AuthContext);
-    const { register, handleSubmit, reset } = useForm();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const [deadline, setDeadline] = useState(new Date());
+    const [loading, setLoading] = useState(false);
 
     const onSubmit = async (data) => {
         const taskData = {
@@ -19,8 +21,9 @@ const AddTask = () => {
             name: user?.displayName,
         };
 
+        setLoading(true);
         try {
-            const res = await fetch('/api/tasks', {
+            const res = await fetch('http://localhost:3000/addTask', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -30,7 +33,12 @@ const AddTask = () => {
 
             if (res.ok) {
                 toast.success('Task added successfully!');
-                reset();
+                reset({
+                    title: '',
+                    category: '',
+                    description: '',
+                    budget: '',
+                });
                 setDeadline(new Date());
             } else {
                 toast.error('Failed to add task.');
@@ -38,6 +46,8 @@ const AddTask = () => {
         } catch (error) {
             console.error(error);
             toast.error('An error occurred.');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -45,29 +55,38 @@ const AddTask = () => {
         <div className="max-w-xl w-11/12 mx-auto mt-10 p-6 shadow-lg rounded-xl bg-white dark:bg-gray-900 dark:text-white mb-10">
             <h2 className="text-2xl font-bold mb-6">Add New Task</h2>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                <input
-                    type="text"
-                    {...register('title', { required: true })}
-                    placeholder="Task Title"
-                    className="w-full p-3 border rounded bg-white dark:bg-gray-800 dark:text-white border-gray-300 dark:border-gray-700"
-                />
+                <div>
+                    <input
+                        type="text"
+                        {...register('title', { required: true })}
+                        placeholder="Task Title"
+                        className="w-full p-3 border rounded bg-white dark:bg-gray-800 dark:text-white border-gray-300 dark:border-gray-700"
+                    />
+                    {errors.title && <p className="text-red-500 text-sm mt-1">Title is required</p>}
+                </div>
 
-                <select
-                    {...register('category', { required: true })}
-                    className="w-full p-3 border rounded bg-white dark:bg-gray-800 dark:text-white border-gray-300 dark:border-gray-700"
-                >
-                    <option value="">Select Category</option>
-                    <option value="Web Development">Web Development</option>
-                    <option value="Design">Design</option>
-                    <option value="Writing">Writing</option>
-                    <option value="Marketing">Marketing</option>
-                </select>
+                <div>
+                    <select
+                        {...register('category', { required: true })}
+                        className="w-full p-3 border rounded bg-white dark:bg-gray-800 dark:text-white border-gray-300 dark:border-gray-700"
+                    >
+                        <option value="">Select Category</option>
+                        <option value="Web Development">Web Development</option>
+                        <option value="Design">Design</option>
+                        <option value="Writing">Writing</option>
+                        <option value="Marketing">Marketing</option>
+                    </select>
+                    {errors.category && <p className="text-red-500 text-sm mt-1">Category is required</p>}
+                </div>
 
-                <textarea
-                    {...register('description', { required: true })}
-                    placeholder="What needs to be done?"
-                    className="w-full p-3 border rounded bg-white dark:bg-gray-800 dark:text-white border-gray-300 dark:border-gray-700"
-                />
+                <div>
+                    <textarea
+                        {...register('description', { required: true })}
+                        placeholder="What needs to be done?"
+                        className="w-full p-3 border rounded bg-white dark:bg-gray-800 dark:text-white border-gray-300 dark:border-gray-700"
+                    />
+                    {errors.description && <p className="text-red-500 text-sm mt-1">Description is required</p>}
+                </div>
 
                 <div>
                     <label className="block mb-1 font-medium">Deadline</label>
@@ -80,12 +99,17 @@ const AddTask = () => {
                     />
                 </div>
 
-                <input
-                    type="number"
-                    {...register('budget', { required: true })}
-                    placeholder="Budget ($)"
-                    className="w-full p-3 border rounded bg-white dark:bg-gray-800 dark:text-white border-gray-300 dark:border-gray-700"
-                />
+                <div>
+                    <input
+                        type="number"
+                        min="1"
+                        step="0.01"
+                        {...register('budget', { required: true, min: 1 })}
+                        placeholder="Budget ($)"
+                        className="w-full p-3 border rounded bg-white dark:bg-gray-800 dark:text-white border-gray-300 dark:border-gray-700"
+                    />
+                    {errors.budget && <p className="text-red-500 text-sm mt-1">Valid budget is required</p>}
+                </div>
 
                 <input
                     type="email"
@@ -103,11 +127,13 @@ const AddTask = () => {
 
                 <button
                     type="submit"
-                    className="w-full bg-blue-600 text-white p-3 rounded hover:bg-blue-700 transition"
+                    disabled={loading}
+                    className="w-full bg-blue-600 text-white p-3 rounded hover:bg-blue-700 transition disabled:opacity-60"
                 >
-                    Add Task
+                    {loading ? 'Adding...' : 'Add Task'}
                 </button>
             </form>
+            <ToastContainer position="top-center" autoClose={3000} />
         </div>
     );
 };

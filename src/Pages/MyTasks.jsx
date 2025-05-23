@@ -1,56 +1,71 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../Context/AuthContext';
+import { AuthContext } from '../context/AuthContext';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const MyTasks = () => {
   const { user } = useContext(AuthContext);
   const [tasks, setTasks] = useState([]);
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
-  // Fetch user's tasks only
+  const fetchTasks = () => {
+    fetch(`http://localhost:3000/mytasks?email=${user.email}`)
+      .then(res => res.json())
+      .then(data => {
+        setTasks(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error(err);
+        toast.error('Failed to load tasks.');
+        setLoading(false);
+      });
+  };
+
   useEffect(() => {
     if (user?.email) {
-      fetch(`/api/tasks?email=${user.email}`)
-        .then((res) => res.json())
-        .then((data) => setTasks(data))
-        .catch((err) => console.error(err));
+      fetchTasks();
     }
   }, [user]);
 
-  // Delete handler
   const handleDelete = async (id) => {
-    const confirm = window.confirm('Are you sure you want to delete this task?');
-    if (!confirm) return;
+    if (!window.confirm('Are you sure you want to delete this task?')) return;
 
     try {
-      const res = await fetch(`/api/tasks/${id}`, {
-        method: 'DELETE',
+      const res = await fetch(`http://localhost:3000/task/${id}`, {
+        method: 'DELETE'
       });
 
       if (res.ok) {
-        toast.success('Task deleted successfully!');
-        setTasks(tasks.filter((task) => task._id !== id));
+        toast.success('Task deleted successfully');
+        fetchTasks();
       } else {
-        toast.error('Failed to delete task.');
+        toast.error('Failed to delete task');
       }
-    } catch (error) {
-      console.error(error);
-      toast.error('An error occurred.');
+    } catch (err) {
+      console.error(err);
+      toast.error('Error deleting task');
     }
   };
 
-  return (
-    <div className="max-w-7xl mx-auto px-4 py-10">
-      <h2 className="text-3xl font-bold mb-6">My Posted Tasks</h2>
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-[40vh]">
+        <span className="loading loading-bars loading-lg"></span>
+      </div>
+    );
+  }
 
+  return (
+    <div className="max-w-6xl mx-auto px-4 py-10">
+      <h2 className="text-3xl font-bold mb-6">My Posted Tasks</h2>
       {tasks.length === 0 ? (
-        <p>No tasks posted yet.</p>
+        <p className="text-gray-500">No tasks found.</p>
       ) : (
         <div className="overflow-x-auto">
-          <table className="min-w-full border border-gray-300 dark:border-gray-700">
-            <thead className="bg-gray-100 dark:bg-gray-800">
-              <tr>
+          <table className="table-auto w-full text-left border-collapse">
+            <thead>
+              <tr className="bg-gray-100 dark:bg-gray-800">
                 <th className="px-4 py-2 border dark:border-gray-700">Title</th>
                 <th className="px-4 py-2 border dark:border-gray-700">Category</th>
                 <th className="px-4 py-2 border dark:border-gray-700">Budget</th>
@@ -59,33 +74,31 @@ const MyTasks = () => {
               </tr>
             </thead>
             <tbody>
-              {tasks.map((task) => (
-                <tr key={task._id} className="text-center">
-                  <td className="px-4 py-2 border dark:border-gray-700">{task.title}</td>
-                  <td className="px-4 py-2 border dark:border-gray-700">{task.category}</td>
-                  <td className="px-4 py-2 border dark:border-gray-700">${task.budget}</td>
-                  <td className="px-4 py-2 border dark:border-gray-700">
-                    {new Date(task.deadline).toLocaleDateString()}
-                  </td>
-                  <td className="px-4 py-2 border dark:border-gray-700 space-x-2">
-                    <button
-                      onClick={() => navigate(`/update-task/${task._id}`)}
-                      className="bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500"
+              {tasks.map(task => (
+                <tr key={task._id} className="border-t dark:border-gray-700">
+                  <td className="px-4 py-2">{task.title}</td>
+                  <td className="px-4 py-2">{task.category}</td>
+                  <td className="px-4 py-2">${task.budget}</td>
+                  <td className="px-4 py-2">{new Date(task.deadline).toLocaleDateString()}</td>
+                  <td className="px-4 py-2 space-x-2">
+                    <Link
+                      to={`/update-task/${task._id}`}
+                      className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm"
                     >
                       Update
-                    </button>
+                    </Link>
                     <button
                       onClick={() => handleDelete(task._id)}
-                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                      className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm"
                     >
                       Delete
                     </button>
-                    <button
-                      onClick={() => navigate(`/task-bids/${task._id}`)}
-                      className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                    <Link
+                      to={`/task/${task._id}/bids`}
+                      className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm"
                     >
                       Bids
-                    </button>
+                    </Link>
                   </td>
                 </tr>
               ))}

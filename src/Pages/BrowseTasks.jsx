@@ -5,7 +5,7 @@ const BrowseTasks = () => {
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
-    fetch('/api/tasks')
+    fetch('http://localhost:3000/addTask')
       .then((res) => res.json())
       .then((data) => setTasks(data))
       .catch((err) => console.error(err));
@@ -14,7 +14,6 @@ const BrowseTasks = () => {
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
       <h2 className="text-3xl font-bold mb-6">Browse Tasks</h2>
-
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {tasks.map((task) => (
           <div
@@ -45,7 +44,7 @@ const BrowseTasks = () => {
             </div>
 
             <Link
-              to={`/tasks/${task._id}`}
+              to={`/task/${task._id}`}
               className="inline-block bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition"
             >
               See Details
