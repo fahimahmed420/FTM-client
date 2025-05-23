@@ -57,7 +57,7 @@ const RecentTasks = () => {
 
           return (
             <Link to={`/task/${task._id}`} key={task._id}>
-              <div className="bg-gray-900 text-white p-4 rounded-xl shadow-md flex flex-col justify-between hover:scale-[1.02] transition-transform cursor-pointer">
+              <div className="bg-[#111] text-white p-4 rounded-xl shadow-md flex flex-col justify-between hover:scale-[1.02] transition-transform cursor-pointer">
                 <div className="flex justify-between items-center mb-2">
                   <h3 className="font-semibold text-lg">{task.title}</h3>
                   <span className="text-xs bg-blue-500 px-2 py-1 rounded-full">

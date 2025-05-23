@@ -3,7 +3,7 @@ import React from 'react';
 const SuccessStories = () => {
     return (
         <div>
-            <section className="bg-gray-100 dark:bg-gray-900 py-12">
+            <section className=" py-12">
   <div className="max-w-6xl mx-auto text-center mb-8">
     <h2 className="text-3xl font-bold">What Our Users Say</h2>
     <p className="text-gray-600 dark:text-gray-400 mt-2">Real stories from real people</p>

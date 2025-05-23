@@ -4,7 +4,7 @@ import { Typewriter } from 'react-simple-typewriter';
 const NeedSomething = () => {
   return (
     <div>
-      <section className="py-12 px-4 max-w-7xl mx-auto text-center">
+      <section className="py-12 px-4 max-w-7xl w-11/12 mx-auto text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-2">
           Need something&nbsp;
           <span className="text-blue-500">
