@@ -77,7 +77,7 @@ const MyTasks = () => {
     } else if (result.dismiss === Swal.DismissReason.cancel) {
       swalWithBootstrapButtons.fire(
         "Cancelled",
-        "Your task is safe 🙂",
+        "Your task is safe",
         "error"
       );
     }
@@ -92,7 +92,7 @@ const MyTasks = () => {
   }
 
   return (
-    <div className="w-11/12 min-h-[69vh] mx-auto px-4 py-10">
+    <div className="w-11/12 min-h-[73vh] mx-auto px-4 py-10">
       <h2 className="text-3xl font-bold mb-6 text-center">My Posted Tasks</h2>
       {tasks.length === 0 ? (
         <p className="text-gray-500">No tasks found.</p>

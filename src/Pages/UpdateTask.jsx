@@ -56,20 +56,52 @@ const UpdateTask = () => {
   if (loading) return <p className="text-center mt-10">Loading...</p>;
 
   return (
-    <div className="max-w-xl mx-auto p-6 shadow rounded bg-white dark:bg-gray-900 dark:text-white mt-10">
-      <h2 className="text-2xl font-bold mb-4">Update Task</h2>
-      <form onSubmit={handleUpdate} className="space-y-4">
-        <input name="title" defaultValue={task.title} className="w-full p-2 border rounded" />
-        <select name="category" defaultValue={task.category} className="w-full p-2 border rounded">
+    <div className="max-w-xl w-11/12 min-h-[65vh] mx-auto p-6 shadow rounded-xl bg-white dark:bg-gray-900 dark:text-white my-10">
+      <h2 className="text-3xl font-bold mb-10 text-center">Update Task</h2>
+      <form onSubmit={handleUpdate} className="space-y-5">
+
+        <input
+          name="title"
+          defaultValue={task.title}
+          placeholder="Task Title"
+          className="w-full p-3 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
+
+        <select
+          name="category"
+          defaultValue={task.category}
+          className="w-full p-3 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
           <option value="Web Development">Web Development</option>
           <option value="Design">Design</option>
           <option value="Writing">Writing</option>
           <option value="Marketing">Marketing</option>
         </select>
-        <textarea name="description" defaultValue={task.description} className="w-full p-2 border rounded" />
-        <input name="budget" type="number" defaultValue={task.budget} className="w-full p-2 border rounded" />
-        <input name="deadline" type="date" defaultValue={task.deadline?.slice(0, 10)} className="w-full p-2 border rounded" />
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Update</button>
+
+        <textarea
+          name="description"
+          defaultValue={task.description}
+          placeholder="Task Description"
+          className="w-full p-3 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
+
+        <input
+          name="budget"
+          type="number"
+          defaultValue={task.budget}
+          placeholder="Budget"
+          className="w-full p-3 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
+
+        <input
+          name="deadline"
+          type="date"
+          defaultValue={task.deadline?.slice(0, 10)}
+          className="w-full p-3 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
+
+        <div className="flex justify-center mt-6">
+          <button
+            type="submit"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded transition-colors duration-300">
+            Update Task
+          </button>
+        </div>
       </form>
     </div>
   );

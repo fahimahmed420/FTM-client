@@ -19,7 +19,7 @@ const Navbar = () => {
         setIsDropdownOpen(prev => !prev);
     };
 
-    // Close dropdown when clicking outside
+
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (
@@ -42,7 +42,7 @@ const Navbar = () => {
     }, [isDropdownOpen]);
 
     return (
-        <div className='bg-gradient-to-br from-gray-900 via-gray-800 to-black mb-10'>
+        <div className='bg-gradient-to-br from-gray-900 via-gray-800 to-black'>
             <div className="drawer">
                 <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
                 <div className="drawer-content flex flex-col">
@@ -57,10 +57,8 @@ const Navbar = () => {
                             </label>
                         </div>
 
-                        {/* Brand */}
                         <div className="text-3xl font-bold text-white">FTM</div>
 
-                        {/* Desktop Nav Links */}
                         <div className="hidden flex-none lg:block">
                             <ul className="menu menu-horizontal text-xl font-bold text-white">
                                 <li className='hover:text-purple-600'><NavLink to="/">Home</NavLink></li>
@@ -93,8 +91,7 @@ const Navbar = () => {
                                         src={user.photoURL || 'https://i.ibb.co/SwwR8MqS/animated.gif'}
                                         alt="User"
                                         className="w-12 h-12 rounded-full border-2 border-white cursor-pointer"
-                                        onClick={toggleDropdown}
-                                    />
+                                        onClick={toggleDropdown}/>
 
                                     {isDropdownOpen && (
                                         <div className="absolute right-0 mt-2 w-48 bg-gray-900 text-white rounded-md shadow-lg z-50">
