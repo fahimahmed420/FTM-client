@@ -6,7 +6,7 @@ import "swiper/css/pagination";
 
 const Banner = () => {
   return (
-    <div className="w-full max-w-7xl mx-auto py-10 px-4">
+    <div className="w-11/12 mx-auto py-10 px-4">
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
         spaceBetween={30}

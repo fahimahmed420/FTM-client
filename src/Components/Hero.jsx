@@ -4,18 +4,19 @@ import { Link } from 'react-router';
 const Hero = () => {
 
   const scrollToTop = () => {
-  window.scrollTo({ top: 2500, behavior: 'smooth' });
-};
+    window.scrollTo({ top: 2500, behavior: 'smooth' });
+  };
 
   return (
     <div>
       <section className="max-w-7xl mx-auto px-6 py-20 grid grid-cols-1 lg:grid-cols-2 items-center gap-12">
         {/* Left Content */}
-        <div>
+        <div className='order-1 md:order-2'>
           <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6">
-            Thrive in the <span className="text-blue-600">World of Freelance</span><br />
+            Thrive in the <span className="text-primary">World of Freelance</span><br />
             Excellence Marketplace!
           </h1>
+
           <p className="text-gray-600 mb-8">
             Flourish in a thriving freelance ecosystem dedicated to excellence and limitless opportunities.
           </p>

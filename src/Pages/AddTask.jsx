@@ -54,7 +54,7 @@ const AddTask = () => {
   };
 
   return (
-    <div className='bg-gray-100 dark:bg-gray-900 py-10'>
+    <div className='bg-base-300 text-base-content py-10'>
       <div className="max-w-xl mx-auto p-6 shadow-lg rounded-xl bg-white dark:bg-[#111] dark:text-white ">
         <h2 className="text-2xl font-bold mb-6">Add New Task</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">

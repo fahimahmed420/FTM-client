@@ -12,8 +12,11 @@ const Navbar = () => {
         setIsDropdownOpen(false);
     };
 
-    const toggleTheme = () => {
-    };
+   useEffect(() => {
+  const storedTheme = localStorage.getItem("theme") || "light";
+  document.documentElement.setAttribute("data-theme", storedTheme);
+}, []);
+
 
     const toggleDropdown = () => {
         setIsDropdownOpen(prev => !prev);
@@ -91,25 +94,40 @@ const Navbar = () => {
                                         src={user.photoURL || 'https://i.ibb.co/SwwR8MqS/animated.gif'}
                                         alt="User"
                                         className="w-12 h-12 rounded-full border-2 border-white cursor-pointer"
-                                        onClick={toggleDropdown}/>
+                                        onClick={toggleDropdown} />
 
+                                    {/* Profile's dropdown */}
                                     {isDropdownOpen && (
-                                        <div className="absolute right-0 mt-2 w-48 bg-gray-900 text-white rounded-md shadow-lg z-50">
+                                        <div className="absolute right-0 mt-2 w-48 bg-[#111] text-white rounded-md shadow-lg z-50">
                                             <div className="text-center my-3">
                                                 {user.displayName || 'User'}
                                             </div>
                                             <div className='flex justify-center'>
-                                                <label onClick={toggleTheme} className="toggle text-base-content">
-                                                    <input type="checkbox" value="synthwave" className="theme-controller" />
+                                                <label className="swap swap-rotate">
+                                                    <input
+                                                        type="checkbox"
+                                                        onChange={(e) => {
+                                                            const theme = e.target.checked ? "mycustomtheme" : "light";
+                                                            document.documentElement.setAttribute("data-theme", theme);
+                                                            localStorage.setItem("theme", theme); // optional: remember theme
+                                                        }}
+                                                    />
 
-                                                    <svg aria-label="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></g></svg>
+                                                    {/* Sun icon */}
+                                                    <svg className="swap-on fill-current w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                        <path d="M5.64,17.66L4.22,19.08l1.42,1.42l1.42-1.42L5.64,17.66z M12,22h0v2h0V22z M18.36,17.66l-1.42,1.42l1.42,1.42l1.42-1.42L18.36,17.66z M22,12h2h-2v0z M17.66,5.64l1.42-1.42L17.66,2.8l-1.42,1.42L17.66,5.64z M12,2h0V0h0V2z M5.64,6.34L4.22,4.92L2.8,6.34l1.42,1.42L5.64,6.34z M2,12H0h2v0z" />
+                                                        <circle cx="12" cy="12" r="5" />
+                                                    </svg>
 
-                                                    <svg aria-label="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></g></svg>
-
+                                                    {/* Moon icon */}
+                                                    <svg className="swap-off fill-current w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                        <path d="M21.64 13.58A9 9 0 0 1 12.42 2.36a9 9 0 1 0 9.22 11.22z" />
+                                                    </svg>
                                                 </label>
+
                                             </div>
                                             <div className="w-full text-center">
-                                                <button onClick={handleLogout} className="text-lg font-bold my-3 mx-auto inline-block cursor-pointer hover:text-purple-600">Log out</button>
+                                                <button onClick={handleLogout} className="text-lg font-bold my-3 mx-auto inline-block cursor-pointer hover:text-blue-700">Log out</button>
                                             </div>
                                         </div>
                                     )}

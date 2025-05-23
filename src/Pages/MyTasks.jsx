@@ -92,7 +92,7 @@ const MyTasks = () => {
   }
 
   return (
-    <div className='bg-gray-100 dark:bg-gray-900'>
+    <div className='bg-base-300 text-base-content'>
       <div className="w-11/12 min-h-[73vh] mx-auto px-4 py-10">
       <h2 className="text-3xl font-bold mb-6 text-center">My Posted Tasks</h2>
       {tasks.length === 0 ? (
@@ -101,7 +101,7 @@ const MyTasks = () => {
         <div className="overflow-x-auto">
           <table className="table-auto w-full text-left border-collapse">
             <thead>
-              <tr className="bg-gray-100 dark:bg-gray-800">
+              <tr className="bg-base-300 text-base-content">
                 <th className="px-4 py-2 border dark:border-gray-700">Title</th>
                 <th className="px-4 py-2 border dark:border-gray-700">Category</th>
                 <th className="px-4 py-2 border dark:border-gray-700">Budget</th>

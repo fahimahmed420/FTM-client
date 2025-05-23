@@ -3,7 +3,7 @@ import React from 'react';
 const FAQ = () => {
     return (
         <div>
-            <section className="py-16">
+            <section className="py-16 flex justify-center mx-auto w-11/12">
   <div className="max-w-3xl mx-auto text-center">
     <h2 className="text-3xl font-bold mb-6">Frequently Asked Questions</h2>
     <div className="text-left space-y-4">

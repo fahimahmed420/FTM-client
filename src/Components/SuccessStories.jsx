@@ -14,7 +14,7 @@ const SuccessStories = () => {
         <div className="flex items-center gap-4 mb-4">
           <img src={`https://i.pravatar.cc/150?img=${i}`} className="w-12 h-12 rounded-full" alt="" />
           <div>
-            <h4 className="font-semibold">Jane Doe</h4>
+            <h4 className="font-semibold text-white">Jane Doe</h4>
             <p className="text-sm text-gray-500">Freelancer</p>
           </div>
         </div>

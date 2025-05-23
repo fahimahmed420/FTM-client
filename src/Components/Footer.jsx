@@ -4,7 +4,7 @@ import { LiaCopyrightSolid } from "react-icons/lia";
 
 const Footer = () => {
     return (
-        <div className='py-5 bg-gradient-to-br from-gray-900 via-gray-800 to-black bg-center ' >
+        <div className='py-10 bg-gradient-to-br from-gray-900 via-gray-800 to-black bg-center text-base-content'  data-theme="dark">
             <div className='w-11/12 mx-auto'>
                 
                 <div className='grid grid-cols-1  md:grid-cols-3 gap-y-6 justify text-center md:text-left justify-items-center'>

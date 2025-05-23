@@ -12,7 +12,7 @@ const BrowseTasks = () => {
   }, []);
 
   return (
-    <div className='bg-gray-100 dark:bg-gray-900'>
+    <div className='bg-base-300 text-base-content'>
       <div className="w-11/12 min-h-[69vh] mx-auto px-4 py-10">
       <h2 className="text-3xl font-bold mb-6">Browse Tasks</h2>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">

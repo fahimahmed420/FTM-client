@@ -56,7 +56,8 @@ const UpdateTask = () => {
   if (loading) return <p className="text-center mt-10">Loading...</p>;
 
   return (
-    <div className="max-w-xl w-11/12 min-h-[65vh] mx-auto p-6 shadow rounded-xl bg-white dark:bg-gray-900 dark:text-white my-10">
+   <div className='bg-base-300 text-base-content py-10'>
+     <div className="max-w-xl w-11/12 min-h-[65vh] mx-auto p-6 shadow rounded-xl bg-white dark:bg-gray-900 dark:text-white py-15">
       <h2 className="text-3xl font-bold mb-10 text-center">Update Task</h2>
       <form onSubmit={handleUpdate} className="space-y-5">
 
@@ -104,6 +105,7 @@ const UpdateTask = () => {
         </div>
       </form>
     </div>
+   </div>
   );
 };
 

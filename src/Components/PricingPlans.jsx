@@ -4,7 +4,7 @@ const PricingPlans = () => {
     return (
         <div>
             <section className=" text-white  py-16">
-  <div className="max-w-6xl mx-auto px-6 text-center">
+  <div className="max-w-7xl w-11/12 mx-auto text-center">
     <h2 className="text-4xl font-bold mb-4">Affordable Plans</h2>
     <p className="text-gray-400 mb-12 max-w-2xl mx-auto">
       Choose a pricing plan that fits your needs and budget. Upgrade anytime as your work or team grows.
