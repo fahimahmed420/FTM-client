@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
+import { toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
 const TaskDetails = () => {
     const { id } = useParams();
+    const { user } = useContext(AuthContext);
     const [task, setTask] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [bidsCount, setBidsCount] = useState(0);
+
+    const isOwner = task?.email === user?.email;
+
 
     const fetchTask = async () => {
         try {
@@ -30,10 +38,11 @@ const TaskDetails = () => {
     const handleBid = async () => {
         try {
             const newBid = {
-                name: "Bidder User", // You can replace with actual logged-in user's name
-                email: "bidder@example.com", // Replace with actual email
-                amount: 100, // Static for now
-                message: "I’m interested in this task."
+                name: user.displayName,
+                email: user.email,
+                amount: 100,
+                message: "I'm interested in this task.",
+                photo: user.photoURL
             };
 
             const res = await fetch(`http://localhost:3000/addTask/${id}/bid`, {
@@ -43,12 +52,16 @@ const TaskDetails = () => {
             });
 
             if (res.ok) {
+                toast.success('Bid placed successfully!');
                 setBidsCount(prev => prev + 1);
+            } else {
+                console.error("Failed to submit bid");
             }
         } catch (err) {
             console.error(err);
         }
     };
+
 
     if (loading) {
         return (
@@ -71,10 +84,25 @@ const TaskDetails = () => {
             <div className="bg-white dark:bg-gray-900 shadow-lg rounded-lg p-6">
                 <div className='flex justify-between'>
                     <h2 className="text-3xl font-bold mb-4">{task.title}</h2>
-                    <button onClick={handleBid} className="ml-3 inline-block bg-orange-500 hover:bg-orange-600 text-white px-3 py-1 rounded text-sm">
-                        Bid Now
-                    </button>
+                    <div>
+                        <button
+                            onClick={handleBid}
+                            disabled={isOwner}
+                            className={`ml-3 inline-block px-3 py-1 rounded text-sm ${isOwner
+                                    ? 'bg-gray-400 cursor-not-allowed text-white'
+                                    : 'bg-orange-500 hover:bg-orange-600 text-white'
+                                }`}
+                        >
+                            Bid Now
+                        </button>
+                        {isOwner && (
+                            <p className="text-sm text-red-500 mt-2">
+                                You can't bid on your own task.
+                            </p>
+                        )}
+                    </div>
                 </div>
+
 
                 <p className="text-lg text-blue-600 font-semibold mb-4">
                     You bid for {bidsCount} {bidsCount === 1 ? 'opportunity' : 'opportunities'}
@@ -128,6 +156,7 @@ const TaskDetails = () => {
                     Back to Browse
                 </Link>
             </div>
+            <ToastContainer />
         </div>
     );
 };
