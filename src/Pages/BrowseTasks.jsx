@@ -12,13 +12,14 @@ const BrowseTasks = () => {
   }, []);
 
   return (
-    <div className="w-11/12 min-h-[69vh] mx-auto px-4 py-10">
+    <div className='bg-gray-100 dark:bg-gray-900'>
+      <div className="w-11/12 min-h-[69vh] mx-auto px-4 py-10">
       <h2 className="text-3xl font-bold mb-6">Browse Tasks</h2>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {tasks.map((task) => (
           <div
             key={task._id}
-            className="border rounded-lg p-5 shadow-md bg-white dark:bg-gray-900 dark:text-white flex flex-col justify-between"
+            className="border border-gray-600 rounded-lg p-5 shadow-md bg-white dark:bg-[#111] dark:text-white flex flex-col justify-between"
           >
             <div>
               <div className='flex justify-between mb-4 items-center'>
@@ -48,12 +49,13 @@ const BrowseTasks = () => {
             </div>
 
             <Link to={`/task/${task._id}`} 
-            className="inline-block bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition text-center">
+            className="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition text-center">
               See Details
             </Link>
           </div>
         ))}
       </div>
+    </div>
     </div>
   );
 };

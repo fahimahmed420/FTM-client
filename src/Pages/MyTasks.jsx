@@ -92,7 +92,8 @@ const MyTasks = () => {
   }
 
   return (
-    <div className="w-11/12 min-h-[73vh] mx-auto px-4 py-10">
+    <div className='bg-gray-100 dark:bg-gray-900'>
+      <div className="w-11/12 min-h-[73vh] mx-auto px-4 py-10">
       <h2 className="text-3xl font-bold mb-6 text-center">My Posted Tasks</h2>
       {tasks.length === 0 ? (
         <p className="text-gray-500">No tasks found.</p>
@@ -141,6 +142,7 @@ const MyTasks = () => {
           </table>
         </div>
       )}
+    </div>
     </div>
   );
 };
