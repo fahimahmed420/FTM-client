@@ -9,7 +9,7 @@ const UpdateTask = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/task/${id}`)
+    fetch(`https://assignment-10-server-pi-mocha.vercel.app/task/${id}`)
       .then(res => res.json())
       .then(data => {
         setTask(data);
@@ -33,7 +33,7 @@ const UpdateTask = () => {
     };
 
     try {
-      const res = await fetch(`http://localhost:3000/task/${id}`, {
+      const res = await fetch(`https://assignment-10-server-pi-mocha.vercel.app/task/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

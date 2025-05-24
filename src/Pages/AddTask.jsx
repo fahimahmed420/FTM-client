@@ -25,7 +25,7 @@ const AddTask = () => {
 
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:3000/addTask', {
+      const res = await fetch('https://assignment-10-server-pi-mocha.vercel.app/addTask', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

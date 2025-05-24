@@ -7,7 +7,7 @@ const RecentTasks = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const res = await fetch('http://localhost:3000/recent-tasks');
+        const res = await fetch('https://assignment-10-server-pi-mocha.vercel.app/recent-tasks');
         const data = await res.json();
         setTasks(data);
       } catch (error) {

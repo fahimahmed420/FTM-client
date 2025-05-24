@@ -5,7 +5,7 @@ const BrowseTasks = () => {
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/addTask')
+    fetch('https://assignment-10-server-pi-mocha.vercel.app/addTask')
       .then((res) => res.json())
       .then((data) => setTasks(data))
       .catch((err) => console.error(err));

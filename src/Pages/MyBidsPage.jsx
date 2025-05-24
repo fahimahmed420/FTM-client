@@ -7,7 +7,7 @@ const TaskBidders = () => {
 
   useEffect(() => {
     const fetchBidders = async () => {
-      const res = await fetch(`http://localhost:3000/tasks/${id}/bidders`);
+      const res = await fetch(`https://assignment-10-server-pi-mocha.vercel.app/tasks/${id}/bidders`);
       const data = await res.json();
       setBidders(data);
     };

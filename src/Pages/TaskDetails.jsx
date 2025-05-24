@@ -16,7 +16,7 @@ const TaskDetails = () => {
 
     const fetchTask = async () => {
         try {
-            const res = await fetch(`http://localhost:3000/addTask/${id}`);
+            const res = await fetch(`https://assignment-10-server-pi-mocha.vercel.app/addTask/${id}`);
             if (!res.ok) throw new Error('Task not found');
             const data = await res.json();
             setTask(data);
@@ -48,7 +48,7 @@ const TaskDetails = () => {
         };
 
         try {
-            const res = await fetch(`http://localhost:3000/addTask/${id}/bid`, {
+            const res = await fetch(`https://assignment-10-server-pi-mocha.vercel.app/addTask/${id}/bid`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(newBid)

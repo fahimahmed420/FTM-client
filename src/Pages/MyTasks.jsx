@@ -10,7 +10,7 @@ const MyTasks = () => {
   const [loading, setLoading] = useState(true);
 
   const fetchTasks = () => {
-    fetch(`http://localhost:3000/mytasks?email=${user.email}`)
+    fetch(`https://assignment-10-server-pi-mocha.vercel.app/mytasks?email=${user.email}`)
       .then(res => res.json())
       .then(data => {
         setTasks(data);
@@ -52,7 +52,7 @@ const MyTasks = () => {
 
     if (result.isConfirmed) {
       try {
-        const res = await fetch(`http://localhost:3000/task/${id}`, {
+        const res = await fetch(`https://assignment-10-server-pi-mocha.vercel.app/task/${id}`, {
           method: 'DELETE'
         });
 
