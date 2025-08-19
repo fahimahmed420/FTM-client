@@ -11,12 +11,13 @@ const TaskDetails = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [bidsCount, setBidsCount] = useState(0);
+    const API_URL = import.meta.env.VITE_API_URL;
 
     const isOwner = task?.email === user?.email;
 
     const fetchTask = async () => {
         try {
-            const res = await fetch(`https://assignment-10-server-pi-mocha.vercel.app/addTask/${id}`);
+            const res = await fetch(`${API_URL}/addTask/${id}`);
             if (!res.ok) throw new Error('Task not found');
             const data = await res.json();
             setTask(data);
@@ -48,7 +49,7 @@ const TaskDetails = () => {
         };
 
         try {
-            const res = await fetch(`https://assignment-10-server-pi-mocha.vercel.app/addTask/${id}/bid`, {
+            const res = await fetch(`${API_URL}/addTask/${id}/bid`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(newBid)

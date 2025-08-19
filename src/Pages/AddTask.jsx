@@ -12,6 +12,7 @@ const AddTask = () => {
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
   const [deadline, setDeadline] = useState(new Date());
   const [loading, setLoading] = useState(false);
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const onSubmit = async (data) => {
     const taskData = {
@@ -25,7 +26,7 @@ const AddTask = () => {
 
     setLoading(true);
     try {
-      const res = await fetch('https://assignment-10-server-pi-mocha.vercel.app/addTask', {
+      const res = await fetch(`${API_URL}/addTask`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

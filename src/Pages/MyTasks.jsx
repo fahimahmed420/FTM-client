@@ -8,9 +8,10 @@ const MyTasks = () => {
   const { user } = useContext(AuthContext);
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const fetchTasks = () => {
-    fetch(`https://assignment-10-server-pi-mocha.vercel.app/mytasks?email=${user.email}`)
+    fetch(`${API_URL}/mytasks?email=${user.email}`)
       .then(res => res.json())
       .then(data => {
         setTasks(data);
@@ -52,7 +53,7 @@ const MyTasks = () => {
 
     if (result.isConfirmed) {
       try {
-        const res = await fetch(`https://assignment-10-server-pi-mocha.vercel.app/task/${id}`, {
+        const res = await fetch(`${API_URL}/task/${id}`, {
           method: 'DELETE'
         });
 

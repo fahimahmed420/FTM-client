@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 
 const BrowseTasks = () => {
   const [tasks, setTasks] = useState([]);
+const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    fetch('https://assignment-10-server-pi-mocha.vercel.app/addTask')
+    fetch(`${API_URL}/addTask`)
       .then((res) => res.json())
       .then((data) => setTasks(data))
       .catch((err) => console.error(err));

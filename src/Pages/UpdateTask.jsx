@@ -7,9 +7,10 @@ const UpdateTask = () => {
   const navigate = useNavigate();
   const [task, setTask] = useState(null);
   const [loading, setLoading] = useState(true);
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    fetch(`https://assignment-10-server-pi-mocha.vercel.app/task/${id}`)
+    fetch(`${API_URL}/task/${id}`)
       .then(res => res.json())
       .then(data => {
         setTask(data);
@@ -33,7 +34,7 @@ const UpdateTask = () => {
     };
 
     try {
-      const res = await fetch(`https://assignment-10-server-pi-mocha.vercel.app/task/${id}`, {
+      const res = await fetch(`${API_URL}/task/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom'; // Import Link
 
 const RecentTasks = () => {
   const [tasks, setTasks] = useState([]);
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const res = await fetch('https://assignment-10-server-pi-mocha.vercel.app/recent-tasks');
+        const res = await fetch(`${API_URL}/recent-tasks`);
         const data = await res.json();
         setTasks(data);
       } catch (error) {

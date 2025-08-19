@@ -17,7 +17,6 @@ const Navbar = () => {
   document.documentElement.setAttribute("data-theme", storedTheme);
 }, []);
 
-console.log(user);
     const toggleDropdown = () => {
         setIsDropdownOpen(prev => !prev);
     };

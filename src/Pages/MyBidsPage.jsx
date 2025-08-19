@@ -4,10 +4,11 @@ import { useParams } from 'react-router-dom';
 const TaskBidders = () => {
   const { id } = useParams(); // task ID from URL
   const [bidders, setBidders] = useState([]);
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const fetchBidders = async () => {
-      const res = await fetch(`https://assignment-10-server-pi-mocha.vercel.app/tasks/${id}/bidders`);
+      const res = await fetch(`${API_URL}/tasks/${id}/bidders`);
       const data = await res.json();
       setBidders(data);
     };
